@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>出行建议</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>你的出行建议</h2>
+
+    <div class="card">
+      <h3>你的出行风格</h3>
+      <p id="profile">正在生成...</p>
+    </div>
+
+    <div class="card">
+      <h3>AI 推荐路线</h3>
+      <div id="routes">正在生成路线，请稍等...</div>
+    </div>
+
+    <div class="card">
+      <h3>同行建议</h3>
+      <p id="companion">正在分析...</p>
+    </div>
+
+    <div class="actions">
+      <button onclick="contact()">联系组织者</button>
+      <button onclick="back()">重新填写</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

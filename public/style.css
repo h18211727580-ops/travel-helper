@@ -1,0 +1,352 @@
+/* ===== 全局 ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  background: #f7f7f7;
+  color: #333;
+}
+
+/* ===== 页面主容器 ===== */
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* ===== 标题 ===== */
+h1, h2, h3, h4 {
+  margin-top: 0;
+  color: #222;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+p {
+  line-height: 1.7;
+  margin: 0 0 10px 0;
+}
+
+/* ===== 首页 Hero / 内容卡片 ===== */
+.hero {
+  background: linear-gradient(135deg, #e8f5ef, #f7fbf9);
+  border-radius: 18px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #666;
+}
+
+/* ===== 通用卡片 ===== */
+.card {
+  background: #fff;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== 表单区域 ===== */
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 28px 0 14px;
+  color: #2d5f4d;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid #d9e2dc;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+}
+
+/* ===== checkbox / radio 区 ===== */
+.checkbox-group,
+.radio-group {
+  margin-bottom: 14px;
+}
+
+.checkbox-item,
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #444;
+}
+
+.checkbox-item input,
+.radio-item input {
+  width: auto;
+  margin: 0;
+}
+
+/* ===== 按钮 ===== */
+button {
+  width: 100%;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #4caf50;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 14px rgba(76, 175, 80, 0.18);
+}
+
+button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.secondary-btn {
+  background: #e9f3ec;
+  color: #2d5f4d;
+  box-shadow: none;
+  border: 1px solid #cfe0d6;
+}
+
+/* 两个按钮并排 */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.actions button {
+  flex: 1;
+  width: auto;
+}
+
+/* ===== 首页功能亮点区 ===== */
+.feature-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.feature-item {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.feature-item h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.feature-item p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ===== 结果页：画像 / 推荐路线 / 同行建议 ===== */
+.profile-box {
+  background: #f4fbf7;
+  border-left: 4px solid #4caf50;
+}
+
+.ai-route {
+  background: #f0f8f5;
+  padding: 14px;
+  border-radius: 10px;
+  line-height: 1.85;
+  white-space: normal;
+  color: #2f3d35;
+  font-size: 14px;
+}
+
+.route-card {
+  background: #f8fcfa;
+  border: 1px solid #e2efe7;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.route-card p {
+  margin-bottom: 6px;
+  color: #555;
+}
+
+/* ===== 成功 / 提示 / 错误 ===== */
+.tip-box {
+  background: #fff8e8;
+  color: #8a6514;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.success-box {
+  background: #edf9f0;
+  color: #276738;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.error-box {
+  background: #fff3f3;
+  color: #c62828;
+  padding: 12px 14px;
+  border-radius: 10px;
+  line-height: 1.6;
+  border: 1px solid #ffd5d5;
+}
+
+/* ===== 小字说明 ===== */
+.helper-text {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.6;
+  margin-top: -6px;
+  margin-bottom: 14px;
+}
+
+/* ===== 分隔线 ===== */
+hr {
+  border: none;
+  border-top: 1px solid #ececec;
+  margin: 18px 0;
+}
+
+/* ===== 链接 ===== */
+a {
+  color: #2f7d57;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin: 28px 0 16px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .container {
+    margin: 24px auto;
+    padding: 0 14px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .hero {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 18px auto;
+    padding: 0 12px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .card,
+  .feature-item {
+    padding: 14px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
