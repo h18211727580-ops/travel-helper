@@ -964,3 +964,20 @@ textarea:focus {
     text-align: left;
   }
 }
+.card {
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #2f4f3f;
+}
+
+.card p {
+  margin: 5px 0;
+  line-height: 1.6;
+}

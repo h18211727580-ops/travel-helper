@@ -18,97 +18,67 @@ app.get("/api/health", (req, res) => {
   res.json({ ok: true, message: "server is running" });
 });
 
-// AI 生成路线接口
+// AI生成路线
 app.post("/api/generate-route", async (req, res) => {
   try {
     const data = req.body;
 
     if (!API_KEY) {
       return res.status(500).json({
-        error: "缺少 DeepSeek API Key，请检查 .env 文件"
+        error: "缺少 DeepSeek API Key，请检查 .env"
       });
     }
 
     const prompt = `
-你是一个擅长为中老年人设计旅行路线的助手。
-请根据以下用户信息，生成一份清晰、友好、适合中老年人阅读的出行建议。
+你是一个擅长为中老年用户设计旅行方案的助手。
 
 用户信息：
-出发城市：${data.city || "未填写"}
+出发地：${data.city || "未填写"}
 目的地：${data.destination || "未填写"}
-出行时间：${data.time || "未填写"}
 天数：${data.days || "未填写"}
-旅行节奏：${data.pace || "未填写"}
-是否接受早起：${data.early || "未填写"}
-步行程度：${data.walk || "未填写"}
+节奏：${data.pace || "未填写"}
 预算：${data.budget || "未填写"}
-消费偏好：${data.value || "未填写"}
-住宿偏好：${data.stay || "未填写"}
-兴趣：${Array.isArray(data.interests) ? data.interests.join("、") : "未填写"}
+是否同行：${data.companion || "未填写"}
 
-请输出：
-1. 一个简短的整体判断
-2. 一个按天安排的旅行建议
-3. 一段“为什么适合这个用户”的说明
+请按下面格式输出：
 
-要求：
-- 语言自然、温和、清楚
-- 不要太像机器人
-- 不要输出 JSON
-- 用简体中文
-- 每天安排不要太满
+【路线总览】
+2-3句总结
+
+【每日安排】
+按“第1天、第2天...”写
+
+【住宿建议】
+2-4条
+
+【同行建议】
+给建议
 `;
 
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
+        Authorization: `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
         model: "deepseek-chat",
-        messages: [
-          {
-            role: "system",
-            content: "你是一个擅长中老年旅行规划的中文助手。"
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        temperature: 0.7
+        messages: [{ role: "user", content: prompt }]
       })
     });
 
     const result = await response.json();
 
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: "DeepSeek API 调用失败",
-        details: result
-      });
-    }
-
-    const content = result?.choices?.[0]?.message?.content;
-
-    if (!content) {
-      return res.status(500).json({
-        error: "AI 没有返回有效内容",
-        details: result
-      });
-    }
-
-    res.json({ route: content });
-  } catch (error) {
-    console.error("生成路线失败:", error);
-    res.status(500).json({
-      error: "服务器内部错误",
-      details: error.message
+    res.json({
+      route: result.choices[0].message.content
     });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "服务器错误" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log("server running on port " + PORT);
 });
