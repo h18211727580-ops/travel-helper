@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <title>填写出行需求</title>
@@ -8,198 +8,127 @@
 <body>
 
 <div class="container">
-  <h2>填写你的出行想法</h2>
 
-  <!-- 1. 基础信息 -->
-  <h3>📍 基础出行信息</h3>
+  <div class="card">
+    <h2 id="questionTitle">你从哪里出发？</h2>
 
-  <label>出发城市</label>
-  <input id="city" type="text">
+    <!-- 输入区域 -->
+    <div id="inputArea"></div>
 
-  <label>想去哪里</label>
-  <input id="destination" type="text">
+    <!-- 按钮 -->
+    <div class="actions">
+      <button onclick="nextStep()">下一步</button>
+    </div>
 
-  <label>出行时间</label>
-  <input id="time" type="text">
-
-  <label>出行天数</label>
-  <input id="days" type="number">
-
-  <!-- 2. 出行方式 -->
-  <h3>🧘 出行节奏</h3>
-
-  <label>节奏偏好</label>
-  <select id="pace">
-    <option>慢慢玩</option>
-    <option>适中</option>
-    <option>紧凑多玩</option>
-  </select>
-
-  <label>是否接受早起</label>
-  <select id="early">
-    <option>接受</option>
-    <option>尽量不要</option>
-  </select>
-
-  <label>每天步行程度</label>
-  <select id="walk">
-    <option>少走</option>
-    <option>适中</option>
-    <option>可以多走</option>
-  </select>
-
-  <!-- 3. 消费观 -->
-  <h3>💰 消费偏好</h3>
-
-  <label>预算</label>
-  <select id="budget">
-    <option>1000–2000</option>
-    <option>2000–4000</option>
-    <option>4000以上</option>
-  </select>
-
-  <label>更看重</label>
-  <select id="value">
-    <option>性价比</option>
-    <option>舒适</option>
-    <option>品质</option>
-  </select>
-
-  <label>住宿偏好</label>
-  <select id="stay">
-    <option>能省就省</option>
-    <option>干净就行</option>
-    <option>想住好一点</option>
-  </select>
-
-  <label>是否接受拼房</label>
-  <select id="share">
-    <option>接受</option>
-    <option>不接受</option>
-    <option>看情况</option>
-  </select>
-
-  <!-- 4. 性格 -->
-  <h3>🧑‍🤝‍🧑 性格与社交</h3>
-
-  <label>性格偏向</label>
-  <select id="personality">
-    <option>安静</option>
-    <option>一般</option>
-    <option>外向</option>
-  </select>
-
-  <label>是否接受陌生人同行</label>
-  <select id="stranger">
-    <option>接受</option>
-    <option>有点担心</option>
-    <option>不太接受</option>
-  </select>
-
-  <label>是否愿意提前在群里认识</label>
-  <select id="group">
-    <option>愿意</option>
-    <option>看情况</option>
-    <option>不愿意</option>
-  </select>
-
-  <!-- 5. 兴趣 -->
-  <h3>🌄 旅行兴趣（可多选）</h3>
-
-  <label><input type="checkbox" value="自然风景">自然风景</label><br>
-  <label><input type="checkbox" value="古镇">古镇</label><br>
-  <label><input type="checkbox" value="美食">美食</label><br>
-  <label><input type="checkbox" value="温泉">温泉</label><br>
-  <label><input type="checkbox" value="寺庙">寺庙</label><br>
-  <label><input type="checkbox" value="拍照">拍照</label><br>
-  <label><input type="checkbox" value="不想太累">不想太累</label><br>
-
-  <!-- 6. 基本信息 -->
-  <h3>📊 基本信息</h3>
-
-  <label>年龄段</label>
-  <select id="age">
-    <option>45–55</option>
-    <option>55–65</option>
-    <option>65+</option>
-  </select>
-
-  <label>性别</label>
-  <select id="gender">
-    <option>女</option>
-    <option>男</option>
-  </select>
-
-  <!-- 7. 同行偏好 -->
-  <h3>👥 同行偏好</h3>
-
-  <label>是否想找同行</label>
-  <select id="companion">
-    <option>是</option>
-    <option>否</option>
-  </select>
-
-  <label>希望同行类型</label>
-  <select id="type">
-    <option>女性</option>
-    <option>夫妻</option>
-    <option>都可以</option>
-  </select>
-
-  <label>是否接受熟人的熟人</label>
-  <select id="friend">
-    <option>接受</option>
-    <option>不接受</option>
-  </select>
-
-  <br><br>
-
-  <button onclick="submitForm()">提交</button>
+    <!-- 进度 -->
+    <p id="progress" style="text-align:center; margin-top:10px; color:#888;"></p>
+  </div>
 
 </div>
 
 <script>
-function submitForm() {
 
-  // 收集兴趣
-  let interests = [];
-  document.querySelectorAll('input[type=checkbox]:checked').forEach(el => {
-    interests.push(el.value);
-  });
+let step = 0;
+let answers = {};
 
-  const data = {
-    city: document.getElementById("city").value,
-    destination: document.getElementById("destination").value,
-    time: document.getElementById("time").value,
-    days: document.getElementById("days").value,
+const steps = [
+  {
+    key: "city",
+    title: "你从哪里出发？",
+    type: "input"
+  },
+  {
+    key: "destination",
+    title: "想去哪里？（可以先随便填）",
+    type: "input"
+  },
+  {
+    key: "days",
+    title: "打算玩几天？",
+    type: "number"
+  },
+  {
+    key: "pace",
+    title: "你更喜欢哪种节奏？",
+    type: "select",
+    options: ["慢慢玩", "适中", "紧凑一点"]
+  },
+  {
+    key: "budget",
+    title: "大概预算是多少？",
+    type: "select",
+    options: ["1000–2000", "2000–4000", "4000以上"]
+  },
+  {
+    key: "personality",
+    title: "你平时性格更偏向？",
+    type: "select",
+    options: ["安静", "一般", "外向"]
+  },
+  {
+    key: "companion",
+    title: "这次是否考虑找同行？",
+    type: "select",
+    options: ["是", "否"]
+  }
+];
 
-    pace: document.getElementById("pace").value,
-    early: document.getElementById("early").value,
-    walk: document.getElementById("walk").value,
+function renderStep() {
+  const current = steps[step];
 
-    budget: document.getElementById("budget").value,
-    value: document.getElementById("value").value,
-    stay: document.getElementById("stay").value,
-    share: document.getElementById("share").value,
+  document.getElementById("questionTitle").innerText = current.title;
+  document.getElementById("progress").innerText =
+    `第 ${step + 1} / ${steps.length} 步`;
 
-    personality: document.getElementById("personality").value,
-    stranger: document.getElementById("stranger").value,
-    group: document.getElementById("group").value,
+  let html = "";
 
-    interests: interests,
+  if (current.type === "input") {
+    html = `<input id="answer" type="text" />`;
+  }
 
-    age: document.getElementById("age").value,
-    gender: document.getElementById("gender").value,
+  if (current.type === "number") {
+    html = `<input id="answer" type="number" />`;
+  }
 
-    companion: document.getElementById("companion").value,
-    type: document.getElementById("type").value,
-    friend: document.getElementById("friend").value
-  };
+  if (current.type === "select") {
+    html = `<select id="answer">`;
+    current.options.forEach(opt => {
+      html += `<option value="${opt}">${opt}</option>`;
+    });
+    html += `</select>`;
+  }
 
-  localStorage.setItem("travelData", JSON.stringify(data));
+  document.getElementById("inputArea").innerHTML = html;
+}
 
+function nextStep() {
+  const value = document.getElementById("answer").value;
+
+  if (!value) {
+    alert("请先填写这一项");
+    return;
+  }
+
+  answers[steps[step].key] = value;
+
+  step++;
+
+  if (step >= steps.length) {
+    finish();
+    return;
+  }
+
+  renderStep();
+}
+
+function finish() {
+  localStorage.setItem("travelData", JSON.stringify(answers));
   window.location.href = "result.html";
 }
+
+// 初始化
+renderStep();
+
 </script>
 
 </body>

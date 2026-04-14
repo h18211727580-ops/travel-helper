@@ -1,128 +1,89 @@
-const data = JSON.parse(localStorage.getItem("travelData"));
-
-// 防止没有数据时页面报错
-if (!data) {
-  alert("没有找到问卷数据，请先填写问卷。");
-  window.location.href = "form.html";
-}
-
-// 出行画像
-function generateProfile(data) {
-  let text = "";
-
-  if (data.pace === "慢慢玩") {
-    text += "你更适合轻松慢游类型的出行，不太适合赶行程。";
-  } else if (data.pace === "适中") {
-    text += "你适合节奏适中的旅行，可以兼顾游玩和休息。";
-  } else {
-    text += "你可以接受稍微紧凑一点的行程安排。";
-  }
-
-  text += `预算在 ${data.budget} 区间，`;
-
-  if (data.value === "性价比") {
-    text += "更看重性价比。";
-  } else if (data.value === "舒适") {
-    text += "更看重舒适体验。";
-  } else {
-    text += "更偏向品质出行。";
-  }
-
-  text += `适合安排 ${data.days} 天左右的行程。`;
-
-  if (data.interests && data.interests.length > 0) {
-    text += `你更偏好 ${data.interests.join("、")} 类型的旅行体验。`;
-  }
-
-  return text;
-}
-
-// 同行建议
-function generateCompanion(data) {
-  let text = "";
-
-  if (data.companion === "否") {
-    return "你更适合与熟人出行，本次建议优先考虑熟人组合。";
-  }
-
-  text += "你更适合与以下类型的人同行：\n";
-
-  if (data.pace === "慢慢玩") {
-    text += "• 节奏偏慢\n";
-  } else if (data.pace === "适中") {
-    text += "• 节奏适中\n";
-  } else {
-    text += "• 可以接受稍紧凑安排\n";
-  }
-
-  text += `• 预算在 ${data.budget}\n`;
-
-  if (data.personality === "安静") {
-    text += "• 偏安静、不太吵闹\n";
-  } else if (data.personality === "外向") {
-    text += "• 偏外向、愿意交流\n";
-  } else {
-    text += "• 沟通自然、相处轻松\n";
-  }
-
-  if (data.share === "接受") {
-    text += "• 接受拼房，更容易协调\n";
-  }
-
-  text += "\n建议 2–4 人小团出行，更容易协调节奏。";
-
-  return text.replace(/\n/g, "<br>");
-}
-
-// 调用后端 AI 路线接口
-async function generateAIRoute(data) {
-  const routesEl = document.getElementById("routes");
-
-  try {
-    routesEl.innerHTML = "正在生成路线，请稍等...";
-
-    const response = await fetch("/api/generate-route", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.error || "生成失败");
-    }
-
-    routesEl.innerHTML = `
-      <div class="ai-route">
-        ${result.route.replace(/\n/g, "<br>")}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>你的出行建议</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">旅</div>
+        <div>
+          <div class="brand-name">安心结伴出行助手</div>
+          <div class="brand-sub">你的专属出行建议</div>
+        </div>
       </div>
-    `;
-  } catch (error) {
-    console.error("AI 路线生成失败:", error);
-    routesEl.innerHTML = `
-      <div class="error-box">
-        路线生成失败：${error.message}
-      </div>
-    `;
-  }
-}
+    </header>
 
-// 页面初始化
-function initPage() {
-  document.getElementById("profile").innerText = generateProfile(data);
-  document.getElementById("companion").innerHTML = generateCompanion(data);
-  generateAIRoute(data);
-}
+    <main class="container result-page">
+      <section class="result-hero">
+        <span class="hero-badge">已完成分析</span>
+        <h1>这是更适合你的出行建议</h1>
+        <p class="hero-desc">
+          我们根据你的出发地、天数、预算和节奏偏好，整理出一版更适合你的路线与同行建议。
+        </p>
+      </section>
 
-function back() {
-  window.location.href = "form.html";
-}
+      <section class="result-grid">
+        <div class="result-main">
+          <div class="result-card">
+            <div class="result-card-head">
+              <h2>你的出行画像</h2>
+            </div>
+            <div id="profile" class="result-text">正在生成...</div>
+          </div>
 
-function contact() {
-  alert("这里后续可以接你妈的微信、二维码或群入口。");
-}
+          <div class="result-card">
+            <div class="result-card-head">
+              <h2>推荐路线</h2>
+              <span class="result-tag">AI 生成</span>
+            </div>
+            <div id="routes" class="ai-route">正在生成路线，请稍等...</div>
+          </div>
 
-initPage();
+          <div class="result-card">
+            <div class="result-card-head">
+              <h2>为什么适合你</h2>
+            </div>
+            <div id="whyFit" class="result-text">正在分析...</div>
+          </div>
+        </div>
+
+        <aside class="result-side">
+          <div class="result-card sticky-card">
+            <div class="result-card-head">
+              <h2>同行建议</h2>
+            </div>
+            <div id="companion" class="result-text">正在分析...</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-card-head">
+              <h2>你的本次偏好</h2>
+            </div>
+            <div id="summary" class="summary-list"></div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-card-head">
+              <h2>下一步</h2>
+            </div>
+            <div class="action-stack">
+              <button class="btn btn-primary" onclick="contact()">联系组织者</button>
+              <button class="btn btn-secondary" onclick="back()">重新填写</button>
+            </div>
+            <p class="helper-note">
+              如果你愿意，后续也可以根据相似偏好帮你留意合适的同行人。
+            </p>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
