@@ -1,135 +1,103 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>填写出行需求</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>你的出行建议</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">旅</div>
+        <div>
+          <div class="brand-name">安心结伴出行助手</div>
+          <div class="brand-sub">根据你的填写结果整理出的建议</div>
+        </div>
+      </div>
+    </header>
 
-<div class="container">
+    <main class="container result-page">
+      <section class="result-hero-pro">
+        <div class="result-hero-left">
+          <span class="hero-badge">分析完成</span>
+          <h1>这是一份更适合你的出行建议</h1>
+          <p class="hero-desc">
+            我们根据你的出发地、目的地、预算、旅行节奏和是否考虑同行，
+            整理出一版更容易落地的出行方案。
+          </p>
+        </div>
 
-  <div class="card">
-    <h2 id="questionTitle">你从哪里出发？</h2>
+        <div class="result-hero-right">
+          <div class="hero-stat-card">
+            <div class="hero-stat-label">当前状态</div>
+            <div class="hero-stat-value">已生成建议</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-label">下一步</div>
+            <div class="hero-stat-value">可继续联系 / 重新填写</div>
+          </div>
+        </div>
+      </section>
 
-    <!-- 输入区域 -->
-    <div id="inputArea"></div>
+      <section class="result-layout">
+        <div class="result-main-column">
+          <div class="result-panel">
+            <div class="panel-head">
+              <h2>你的出行画像</h2>
+            </div>
+            <div id="profile" class="panel-text">正在分析...</div>
+          </div>
 
-    <!-- 按钮 -->
-    <div class="actions">
-      <button onclick="nextStep()">下一步</button>
-    </div>
+          <div class="result-panel result-panel-highlight">
+            <div class="panel-head">
+              <h2>AI 推荐路线</h2>
+              <span class="result-tag">AI 建议</span>
+            </div>
+            <div id="routes" class="ai-route-pro">正在生成路线，请稍等...</div>
+          </div>
 
-    <!-- 进度 -->
-    <p id="progress" style="text-align:center; margin-top:10px; color:#888;"></p>
+          <div class="result-panel">
+            <div class="panel-head">
+              <h2>为什么适合你</h2>
+            </div>
+            <div id="whyFit" class="panel-text">正在分析...</div>
+          </div>
+        </div>
+
+        <aside class="result-side-column">
+          <div class="result-panel sticky-panel">
+            <div class="panel-head">
+              <h2>同行建议</h2>
+            </div>
+            <div id="companion" class="panel-text">正在分析...</div>
+          </div>
+
+          <div class="result-panel">
+            <div class="panel-head">
+              <h2>你的填写摘要</h2>
+            </div>
+            <div id="summary" class="summary-list-pro"></div>
+          </div>
+
+          <div class="result-panel">
+            <div class="panel-head">
+              <h2>下一步</h2>
+            </div>
+            <div class="action-stack">
+              <button class="btn btn-primary" onclick="contact()">联系组织者</button>
+              <button class="btn btn-secondary" onclick="back()">重新填写</button>
+            </div>
+            <p class="helper-note">
+              如果你愿意，后续也可以根据相似偏好帮你留意节奏更合适的同行人。
+            </p>
+          </div>
+        </aside>
+      </section>
+    </main>
   </div>
 
-</div>
-
-<script>
-
-let step = 0;
-let answers = {};
-
-const steps = [
-  {
-    key: "city",
-    title: "你从哪里出发？",
-    type: "input"
-  },
-  {
-    key: "destination",
-    title: "想去哪里？（可以先随便填）",
-    type: "input"
-  },
-  {
-    key: "days",
-    title: "打算玩几天？",
-    type: "number"
-  },
-  {
-    key: "pace",
-    title: "你更喜欢哪种节奏？",
-    type: "select",
-    options: ["慢慢玩", "适中", "紧凑一点"]
-  },
-  {
-    key: "budget",
-    title: "大概预算是多少？",
-    type: "select",
-    options: ["1000–2000", "2000–4000", "4000以上"]
-  },
-  {
-    key: "personality",
-    title: "你平时性格更偏向？",
-    type: "select",
-    options: ["安静", "一般", "外向"]
-  },
-  {
-    key: "companion",
-    title: "这次是否考虑找同行？",
-    type: "select",
-    options: ["是", "否"]
-  }
-];
-
-function renderStep() {
-  const current = steps[step];
-
-  document.getElementById("questionTitle").innerText = current.title;
-  document.getElementById("progress").innerText =
-    `第 ${step + 1} / ${steps.length} 步`;
-
-  let html = "";
-
-  if (current.type === "input") {
-    html = `<input id="answer" type="text" />`;
-  }
-
-  if (current.type === "number") {
-    html = `<input id="answer" type="number" />`;
-  }
-
-  if (current.type === "select") {
-    html = `<select id="answer">`;
-    current.options.forEach(opt => {
-      html += `<option value="${opt}">${opt}</option>`;
-    });
-    html += `</select>`;
-  }
-
-  document.getElementById("inputArea").innerHTML = html;
-}
-
-function nextStep() {
-  const value = document.getElementById("answer").value;
-
-  if (!value) {
-    alert("请先填写这一项");
-    return;
-  }
-
-  answers[steps[step].key] = value;
-
-  step++;
-
-  if (step >= steps.length) {
-    finish();
-    return;
-  }
-
-  renderStep();
-}
-
-function finish() {
-  localStorage.setItem("travelData", JSON.stringify(answers));
-  window.location.href = "result.html";
-}
-
-// 初始化
-renderStep();
-
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>

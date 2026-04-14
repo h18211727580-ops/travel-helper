@@ -1,89 +1,73 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>填写出行需求</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="form-page">
 
-  <!-- 顶部 -->
   <div class="form-header">
     <h1>填写你的出行想法</h1>
-    <p>不用一次填很多，一步一步来就好</p>
+    <p>一步一步来，很快就好</p>
   </div>
 
-  <!-- 卡片 -->
   <div class="form-card">
 
-    <!-- 进度条 -->
     <div class="progress-bar">
       <div id="progressFill"></div>
     </div>
 
-    <!-- 问题 -->
     <h2 id="questionTitle"></h2>
 
-    <!-- 输入区 -->
     <div id="inputArea"></div>
 
-    <!-- 按钮 -->
     <div class="form-actions">
-      <button id="nextBtn" onclick="nextStep()">下一步</button>
+      <button onclick="nextStep()">下一步</button>
     </div>
 
-    <div class="step-info" id="progressText"></div>
+    <p class="step-info" id="progressText"></p>
 
   </div>
 
 </div>
 
 <script>
-
 let step = 0;
 let answers = {};
 
 const steps = [
   { key: "city", title: "你从哪里出发？", type: "input" },
   { key: "destination", title: "想去哪里？", type: "input" },
-  { key: "days", title: "打算玩几天？", type: "number" },
-  { key: "pace", title: "更喜欢哪种节奏？", type: "select", options: ["慢慢玩", "适中", "紧凑一点"] },
-  { key: "budget", title: "大概预算是多少？", type: "select", options: ["1000–2000", "2000–4000", "4000以上"] },
-  { key: "personality", title: "性格更偏向？", type: "select", options: ["安静", "一般", "外向"] },
-  { key: "companion", title: "是否考虑找同行？", type: "select", options: ["是", "否"] }
+  { key: "days", title: "玩几天？", type: "number" },
+  { key: "pace", title: "节奏？", type: "select", options: ["慢慢玩", "适中", "紧凑"] },
+  { key: "budget", title: "预算？", type: "select", options: ["1000-2000", "2000-4000", "4000+"] },
+  { key: "companion", title: "考虑找同行吗？", type: "select", options: ["是", "否"] }
 ];
 
 function renderStep() {
-  const current = steps[step];
+  const s = steps[step];
 
-  document.getElementById("questionTitle").innerText = current.title;
-  document.getElementById("progressText").innerText = `第 ${step + 1} / ${steps.length} 步`;
-
-  // 进度条
-  document.getElementById("progressFill").style.width =
-    ((step + 1) / steps.length) * 100 + "%";
+  document.getElementById("questionTitle").innerText = s.title;
+  document.getElementById("progressText").innerText = `第 ${step+1}/${steps.length} 步`;
+  document.getElementById("progressFill").style.width = ((step+1)/steps.length*100)+"%";
 
   let html = "";
 
-  if (current.type === "input") {
-    html = `<input id="answer" placeholder="请输入..." />`;
+  if (s.type === "input") {
+    html = `<input id="answer">`;
   }
 
-  if (current.type === "number") {
-    html = `<input id="answer" type="number" placeholder="例如：3" />`;
+  if (s.type === "number") {
+    html = `<input id="answer" type="number">`;
   }
 
-  if (current.type === "select") {
+  if (s.type === "select") {
     html = `<div class="option-group">`;
-    current.options.forEach(opt => {
-      html += `
-        <div class="option-item" onclick="selectOption('${opt}')">
-          ${opt}
-        </div>
-      `;
+    s.options.forEach(opt=>{
+      html += `<div class="option-item" onclick="selectOption('${opt}')">${opt}</div>`;
     });
     html += `</div>`;
   }
@@ -91,36 +75,34 @@ function renderStep() {
   document.getElementById("inputArea").innerHTML = html;
 }
 
-function selectOption(value) {
-  answers[steps[step].key] = value;
+function selectOption(v){
+  answers[steps[step].key]=v;
 
-  // 高亮选中
-  document.querySelectorAll(".option-item").forEach(el => {
+  document.querySelectorAll(".option-item").forEach(el=>{
     el.classList.remove("active");
-    if (el.innerText === value) el.classList.add("active");
+    if(el.innerText===v) el.classList.add("active");
   });
 }
 
-function nextStep() {
-  const current = steps[step];
+function nextStep(){
+  let s = steps[step];
+  let v = answers[s.key];
 
-  let value = answers[current.key];
-
-  if (current.type === "input" || current.type === "number") {
-    value = document.getElementById("answer").value;
+  if(s.type==="input" || s.type==="number"){
+    v = document.getElementById("answer").value;
   }
 
-  if (!value) {
-    alert("请先填写这一项");
+  if(!v){
+    alert("请填写");
     return;
   }
 
-  answers[current.key] = value;
+  answers[s.key]=v;
   step++;
 
-  if (step >= steps.length) {
-    localStorage.setItem("travelData", JSON.stringify(answers));
-    window.location.href = "result.html";
+  if(step>=steps.length){
+    localStorage.setItem("travelData",JSON.stringify(answers));
+    window.location.href="result.html";
     return;
   }
 
@@ -128,7 +110,6 @@ function nextStep() {
 }
 
 renderStep();
-
 </script>
 
 </body>
