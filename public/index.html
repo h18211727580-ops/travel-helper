@@ -1,24 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>安心结伴出行助手</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">旅</div>
+        <div>
+          <div class="brand-name">安心结伴出行助手</div>
+          <div class="brand-sub">更轻松地规划旅行，也看看有没有合适的同行人</div>
+        </div>
+      </div>
+    </header>
 
-  <div class="container">
-    <h1>帮你轻松安排一次安心出行</h1>
-    <p>填写你的出行想法，我们帮你整理路线，也可以看看有没有合适的同行人。</p>
+    <main class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <span class="hero-badge">小范围测试版</span>
+          <h1>帮你更轻松地安排一次适合自己的旅行</h1>
+          <p class="hero-desc">
+            填写你的出行想法，我们会根据时间、预算和旅行习惯，整理出更适合你的路线建议。
+            如果你愿意，也可以看看有没有节奏合适的同行人。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="form.html">开始填写出行需求</a>
+            <a class="btn btn-secondary" href="#how-it-works">先看看怎么用</a>
+          </div>
+        </div>
 
-    <button onclick="start()">开始填写出行需求</button>
+        <div class="hero-card">
+          <div class="mini-card">
+            <div class="mini-title">适合谁</div>
+            <div class="mini-text">想慢慢玩、不想太赶、也不想自己费劲查攻略的人</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">能得到什么</div>
+            <div class="mini-text">出行画像、路线建议、同行建议、后续人工协助</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">安心说明</div>
+            <div class="mini-text">不公开个人信息，同意后才进一步沟通</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>我们和普通旅游平台有什么不同</h2>
+          <p>不是只给一堆攻略，而是先理解你的节奏，再帮你整理建议。</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🧘</div>
+            <h3>更适合中老年节奏</h3>
+            <p>不追求“玩得越多越好”，而是更看重轻松、舒服和不折腾。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>先帮你整理路线</h3>
+            <p>根据你的时间、预算和偏好，先给你一版清晰的出行建议。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>可选择看看有没有同行</h3>
+            <p>是否结伴由你决定，不强制匹配，优先从相似需求中帮你留意。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <div class="section-head">
+          <h2>使用很简单</h2>
+          <p>先填想法，再看建议，最后决定要不要进一步联系。</p>
+        </div>
+
+        <div class="steps">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>填写出行想法</h3>
+            <p>告诉我们你想去哪、什么时候去、喜欢什么节奏。</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>获取路线建议</h3>
+            <p>系统会根据你的偏好，整理更适合你的出行方向。</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>看看是否有同行</h3>
+            <p>如果你愿意，可以看看有没有节奏相近的人一起出发。</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <h3>决定是否进一步联系</h3>
+            <p>是否加群、是否进一步沟通，都由你自己决定。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>适合这些情况</h2>
+        </div>
+
+        <div class="scene-list">
+          <div class="scene-item">想出去玩，但不想自己查太多攻略</div>
+          <div class="scene-item">想慢慢玩，不喜欢太赶太累</div>
+          <div class="scene-item">想和老同学、老朋友，或者合适的人一起出门</div>
+          <div class="scene-item">想先看看有没有节奏相近的同行人</div>
+        </div>
+      </section>
+
+      <section class="trust-box">
+        <h2>安心说明</h2>
+        <div class="trust-grid">
+          <div class="trust-item">我们不会公开你的个人信息</div>
+          <div class="trust-item">是否结伴以双方同意为前提</div>
+          <div class="trust-item">当前为小范围测试服务</div>
+          <div class="trust-item">后续可根据情况提供人工协助</div>
+        </div>
+      </section>
+
+      <section class="bottom-cta">
+        <h2>先填一下你的出行想法</h2>
+        <p>看看这次更适合你的是哪种路线，也看看有没有合适同行。</p>
+        <a class="btn btn-primary btn-large" href="form.html">开始填写出行需求</a>
+      </section>
+    </main>
   </div>
-
-  <script>
-    function start() {
-      window.location.href = "form.html";
-    }
-  </script>
-
 </body>
 </html>
